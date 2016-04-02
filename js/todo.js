@@ -111,7 +111,6 @@ function createProjectTaskList(projectId) {
     return listHTML;
 }
 
-
 // 当任务标题被修改时，保存
 function saveTaskChange(element) {
     var parent = element.parentNode;    // 取出parent，类型为li
@@ -129,15 +128,21 @@ function saveTaskChange(element) {
 // 点击一个任务目录
 function clickProject(element) {
     currentProjectId = element.parentNode.id.slice(8);
-
+    var projectName = "";
     var projectArray = JSON.parse(localStorage.project);
     for (var i = 0; i < projectArray.length; i++) {
         if (projectArray[i].id == currentProjectId) {
-            var titleElement = document.getElementById("project-name").getElementsByTagName("h3")[0];
-            titleElement.innerHTML = projectArray[i].name;
-            document.getElementById("task-list").innerHTML = createProjectTaskList(currentProjectId);
+            projectName = projectArray[i].name;
+            break;
         }
     }
+    var titleElement = document.getElementById("project-name").getElementsByTagName("h3")[0];
+    titleElement.innerHTML = projectName;
+    // 修改输入框内的提示信息
+    document.getElementById("add-task-input").setAttribute("placeholder",
+        '添加任务至"' + projectName + '"');
+    // 修改显示的任务列表
+    document.getElementById("task-list").innerHTML = createProjectTaskList(currentProjectId);
 }
 
 
