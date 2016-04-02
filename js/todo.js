@@ -2,6 +2,7 @@ var currentProjectId = 0;
 var currentTaskId = -1;
 
 initStorage();
+showProject();
 document.getElementById("task-list").innerHTML = createProjectTaskList(0);
 
 // 初始化数据
@@ -49,7 +50,6 @@ function addTask(taskObject) {
     var tasksArray = JSON.parse(localStorage.task);
     taskObject.id = tasksArray[tasksArray.length - 1].id + 1;
     tasksArray.push(taskObject);
-
 
     localStorage.task = JSON.stringify(tasksArray);
 }
@@ -143,6 +143,38 @@ function clickProject(element) {
         '添加任务至"' + projectName + '"');
     // 修改显示的任务列表
     document.getElementById("task-list").innerHTML = createProjectTaskList(currentProjectId);
+}
+
+// 增加一个新的目录
+function addProject() {
+    var name = prompt("请输入名称：");
+    if (!name) return;
+    var projectObject = {};
+    var projectArray = JSON.parse(localStorage.project);
+    projectObject.id = projectArray[projectArray.length - 1].id + 1;
+    projectObject.name = name;
+    projectArray.push(projectObject);
+
+    localStorage.project = JSON.stringify(projectArray);
+    showProject();
+}
+
+// 显示所有的目录
+function showProject() {
+    var projectArray = JSON.parse(localStorage.project);
+    var projectHTML = "<ul>";
+    var liStr;
+    for (var i = 0; i < projectArray.length; i++) {
+        liStr = '<li id="project-'
+            + i + '">'
+            + '<i class="fa fa-bars"></i>'
+            + '<span onclick="clickProject(this)">'
+            + projectArray[i].name
+            +'</span></li>';
+        projectHTML += liStr;
+    }
+    projectHTML += '<li onclick="addProject()"><i class="fa fa-plus-circle"></i><span>创建清单</span></li></ul>';
+    document.getElementById("project-list").innerHTML = projectHTML;
 }
 
 
