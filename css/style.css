@@ -1,5 +1,5 @@
 .on-test {
-    background-color: #bcf8ff;
+    /*background-color: #bcf8ff;*/
 }
 
 
@@ -65,6 +65,7 @@ header h2 {
     height: calc(100% - 50px);
     position: absolute;
     overflow: hidden;
+    border-right: solid 2px #f3f3f3;
 }
 
 #center-view {
@@ -78,25 +79,61 @@ header h2 {
     position: absolute;
     right: 0;
     top: 50px;
+    border-left: solid 2px #f3f3f3;
 }
 
 #project-list {
     margin: 90px 0 0 20px;
 }
 
-.project-name {
+#project-list li {
+    cursor: pointer;
+}
+
+#project-name {
     margin-top: 40px;
 }
 
 #add-task {
     margin: 10px 0;
+    font-size: 0
 }
 
 #add-task input {
     line-height: 36px;
     height: 36px;
-    width: 90%;
+    width: calc(100% - 14px);
     padding-left: 10px;
+}
+
+#task-list li{
+    font-size: 0;
+    height: 36px;
+    line-height: 36px;
+    border-bottom: solid 1px #d5d5d5;
+}
+
+#task-list li:hover {
+    background-color: #f3f3f3;
+    cursor: pointer;
+}
+
+#task-list i, #task-list span {
+    font-size: 16px;
+}
+
+#task-list span {
+
+}
+
+li.title-list.active {
+background-color: #f3f3f3;
+}
+
+span.task-title {
+/*display: inline-block;*/
+    /*width: calc(100% - 36px);*/
+    outline: none;
 }
 
 #task-content {

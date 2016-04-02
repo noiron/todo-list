@@ -15,15 +15,15 @@
 <div id="left-view" class="on-test">
     <div id="project-list">
         <ul>
-            <li><i class="fa fa-bars"></i>学习前端</li>
-            <li><i class="fa fa-bars"></i>娱乐</li>
-            <li><i class="fa fa-plus-circle"></i>创建清单</li>
+            <li id="project-0"><i class="fa fa-bars"></i><span onclick="clickProject(this)">学习前端</span></li>
+            <li id="project-1"><i class="fa fa-bars"></i><span onclick="clickProject(this)">娱乐</span></li>
+            <li><i class="fa fa-plus-circle"></i><span>创建清单</span></li>
         </ul>
     </div>
 </div>
 
 <div id="center-view">
-    <div class="project-name">
+    <div id="project-name">
         <h3>学习前端</h3>
         <!--<i class="fa fa-ellipsis-h"></i>-->
     </div>
@@ -32,9 +32,19 @@
     </div>
     <div id="task-list">
         <ul>
-            <li><i class="fa fa-square-o"></i>学习gulp</li>
-            <li><i class="fa fa-square-o"></i>完成todolist</li>
-            <li><i class="fa fa-square-o"></i>学习less</li>
+            <li class="title-list active">
+                <i class="fa fa-square-o"></i>
+                <span class="task-title">学习gulp</span>
+                <div class="line-bottom"></div>
+            </li>
+            <li class="title-list">
+                <i class="fa fa-square-o"></i>
+                <span class="task-title">完成todolist</span>
+            </li>
+            <li class="title-list">
+                <i class="fa fa-square-o"></i>
+                <span class="task-title">学习less</span>
+            </li>
         </ul>
     </div>
 </div>
