@@ -11,11 +11,11 @@ function initStorage() {
         var projectJson = [{
             "id": 0,
             "name": "学习前端",
-            "child": [0]
+            "child": [0,1]
         }, {
             "id": 1,
             "name": "娱乐",
-            "child": [0]
+            "child": [2]
         }];
 
         var taskJson = [{
@@ -23,7 +23,7 @@ function initStorage() {
             "parent": 0,
             "finish": false,
             "title": "学习Bootstrap",
-            "content": "这里什么内容也没有"
+            "content": "学习Bootstrap官网教程<br>写Bootstrap <b>demo</b>"
         }, {
             "id": 1,
             "parent": 0,
@@ -35,7 +35,7 @@ function initStorage() {
             "parent": 1,
             "finish": false,
             "title": "看电影",
-            "content": "这里还是什么内容也没有"
+            "content": "这里也是什么内容也没有"
         }
         ];
 
@@ -50,6 +50,7 @@ function addTask(taskObject) {
     var tasksArray = JSON.parse(localStorage.task);
     taskObject.id = tasksArray[tasksArray.length - 1].id + 1;
     tasksArray.push(taskObject);
+    updateProjectChild(currentProjectId, taskObject.id);
 
     localStorage.task = JSON.stringify(tasksArray);
 }
@@ -59,7 +60,6 @@ document.getElementById("add-task-input").onkeydown = function(event) {
     if (event.keyCode == 13) {
         if (this.value === "") {return;}
         var title = this.value;
-        console.log(title);
         this.value = "";
 
         var taskObject = {};
@@ -72,25 +72,6 @@ document.getElementById("add-task-input").onkeydown = function(event) {
     }
 };
 
-// 创建所有任务的列表用于显示
-function createTaskList() {
-    var listHTML = "<ul>";
-    var tasksArray = JSON.parse(localStorage.task);
-    var liStr;
-    for (var i = 0; i < tasksArray.length; i++) {
-        //console.log(tasksArray[i]);
-        liStr = '<li' + ' id="task-' + tasksArray[i].id + '" '
-            + 'class="title-list">'
-            + '<i class="fa fa-square-o"></i>'
-            + '<span class="task-title">'
-            + tasksArray[i].title
-            + '</span></li>';
-        listHTML += liStr;
-    }
-    listHTML += "</ul>";
-    return listHTML;
-}
-
 // 创建一个目录下的列表用于显示
 function createProjectTaskList(projectId) {
     var listHTML = "<ul>";
@@ -99,8 +80,9 @@ function createProjectTaskList(projectId) {
     for (var i = 0; i < tasksArray.length; i++) {
         if (tasksArray[i].parent == projectId) {
             liStr = '<li' + ' id="task-' + tasksArray[i].id + '" '
-                + 'class="title-list">'
-                + '<i class="fa fa-square-o"></i>'
+                + 'class="title-list"'
+                + ' onclick="showTaskContent(this);">'
+                + '<i class="fa fa-fw fa-square-o" onclick="checkTask(this);"></i>'
                 + '<span class="task-title">'
                 + tasksArray[i].title
                 + '</span></li>';
@@ -153,6 +135,7 @@ function addProject() {
     var projectArray = JSON.parse(localStorage.project);
     projectObject.id = projectArray[projectArray.length - 1].id + 1;
     projectObject.name = name;
+    projectObject.child = [];
     projectArray.push(projectObject);
 
     localStorage.project = JSON.stringify(projectArray);
@@ -177,5 +160,54 @@ function showProject() {
     document.getElementById("project-list").innerHTML = projectHTML;
 }
 
+// 切换一个任务完成或未完成的状态
+function checkTask(element) {
+    toggleClass(element, "fa-check-square-o");
+    toggleClass(element, "fa-square-o");
 
+    // 获得这个任务的Id值，eg: "id=task-2"
+    var taskId = element.parentNode.id.slice(5);
+    // 更新任务的完成状态
+    updateTaskState(taskId);
+}
+
+// 添加一个新的任务时，更新project的child属性
+function updateProjectChild(projectId, taskId) {
+    var projectArray = JSON.parse(localStorage.project);
+    for (var i = 0; i < projectArray.length; i++) {
+        if (projectArray[i].id == projectId) {
+            projectArray[i].child.push(taskId);
+        }
+    }
+    localStorage.project = JSON.stringify(projectArray);
+}
+
+// 更新任务的完成状态
+function updateTaskState(taskId) {
+    var taskArray = JSON.parse(localStorage.task);
+    for (var i = 0; i < taskArray.length; i++) {
+        if (taskArray[i].id == taskId) {
+            taskArray[i].finish = !taskArray[i].finish;
+        }
+    }
+    localStorage.task = JSON.stringify(taskArray);
+}
+
+// 在右侧显示一个任务的具体内容
+function showTaskContent(element) {
+    var taskId = element.id.slice(5);
+    console.log(taskId);
+    var taskArray = JSON.parse(localStorage.task);
+    var contentElement = document.getElementById("task-content");
+    for (var i = 0; i < taskArray.length; i++) {
+        if (taskArray[i].id == taskId) {
+            if (taskArray[i].content) {
+                contentElement.innerHTML = taskArray[i].content;
+            } else {
+                contentElement.innerHTML = "这里是任务的具体内容";
+            }
+            return;
+        }
+    }
+}
 
