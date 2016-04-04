@@ -109,7 +109,11 @@ function saveTaskChange(element) {
 
 // 点击一个任务目录
 function clickProject(element) {
-    currentProjectId = element.parentNode.id.slice(8);
+
+    cancelActive(document.getElementById("project-list"));
+    addClass(element, "active");
+
+    currentProjectId = element.id.slice(8);
     var projectName = "";
     var projectArray = JSON.parse(localStorage.project);
     for (var i = 0; i < projectArray.length; i++) {
@@ -127,6 +131,14 @@ function clickProject(element) {
     document.getElementById("task-list").innerHTML = createProjectTaskList(currentProjectId);
 }
 
+// 取消列表上的active类
+function cancelActive(element) {
+    var lists = element.getElementsByTagName("li");
+    for (var i = 0; i < lists.length; i++) {
+        removeClass(lists[i], "active");
+    }
+}
+
 // 增加一个新的目录
 function addProject() {
     var name = prompt("请输入名称：");
@@ -140,6 +152,10 @@ function addProject() {
 
     localStorage.project = JSON.stringify(projectArray);
     showProject();
+
+    // 显示新建目录下的内容
+    var newProject = document.getElementById("project-" + projectObject.id);
+    clickProject(newProject);
 }
 
 // 显示所有的目录
@@ -149,9 +165,9 @@ function showProject() {
     var liStr;
     for (var i = 0; i < projectArray.length; i++) {
         liStr = '<li id="project-'
-            + i + '">'
+            + i + '" onclick="clickProject(this)">'
             + '<i class="fa fa-bars"></i>'
-            + '<span onclick="clickProject(this)">'
+            + '<span>'
             + projectArray[i].name
             +'</span></li>';
         projectHTML += liStr;
@@ -209,5 +225,10 @@ function showTaskContent(element) {
             return;
         }
     }
+}
+
+function showDropdownMenu(element) {
+    var menuElement = document.getElementById("project-dropdown-menu");
+    menuElement.style.display = "block";
 }
 

@@ -15,9 +15,16 @@
 <div id="left-view" class="on-test">
     <div id="project-list">
         <ul>
-            <li id="project-0"><i class="fa fa-bars"></i><span onclick="clickProject(this)">学习前端</span></li>
-            <li id="project-1"><i class="fa fa-bars"></i><span onclick="clickProject(this)">娱乐</span></li>
-            <li onclick="addProject()"><i class="fa fa-plus-circle"></i><span>创建清单</span></li>
+            <li id="project-0" onclick="clickProject(this)">
+                <i class="fa fa-bars"></i><span>学习前端</span>
+                <i class="fa fa-ellipsis-h" onclick="showDropdownMenu(this);"></i>
+            </li>
+            <li id="project-1" onclick="clickProject(this)">
+                <i class="fa fa-bars"></i><span>娱乐</span>
+            </li>
+            <li onclick="addProject()">
+                <i class="fa fa-plus-circle"></i><span>创建清单</span>
+            </li>
         </ul>
     </div>
 </div>
@@ -52,6 +59,13 @@
     <div id="task-content" data-taskid="-1">
         这里是任务的具体内容
     </div>
+</div>
+
+<div id="project-dropdown-menu">
+    <ul>
+        <li>编辑</li>
+        <li>删除</li>
+    </ul>
 </div>
 
 <script type="text/javascript" src="js/util.js"></script>

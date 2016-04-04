@@ -83,11 +83,16 @@ header h2 {
 }
 
 #project-list {
-    margin: 90px 0 0 20px;
+    margin-top: 90px;
 }
 
 #project-list li {
     cursor: pointer;
+}
+
+#project-list li.active {
+    color: #fff;
+    background-color: #516bc1;
 }
 
 #project-name {
@@ -127,7 +132,7 @@ header h2 {
 }
 
 li.title-list.active {
-background-color: #f3f3f3;
+    background-color: #f3f3f3;
 }
 
 span.task-title {
@@ -140,3 +145,15 @@ span.task-title {
     padding: 20px;
 }
 
+#project-dropdown-menu {
+    display: none;
+    position: absolute;
+    bottom: 100px;
+    left: 100px;
+    width: 100px;
+    padding: 10px;
+    background-color: #fff;
+    border:1px solid #ececec;
+    border-radius: 4px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
