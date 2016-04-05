@@ -64,7 +64,7 @@ header h2 {
     width: 200px;
     height: calc(100% - 50px);
     position: absolute;
-    overflow: hidden;
+    /*overflow: hidden;*/
     border-right: solid 2px #f3f3f3;
 }
 
@@ -93,6 +93,15 @@ header h2 {
 #project-list li.active {
     color: #fff;
     background-color: #516bc1;
+}
+
+#project-list .fa-ellipsis-h {
+    /*display: none;*/
+    float: right;
+    line-height: 30px;
+    opacity: 0.4;
+    padding-right: 15px;
+    z-index: 100;
 }
 
 #project-name {
@@ -147,13 +156,28 @@ span.task-title {
 
 #project-dropdown-menu {
     display: none;
-    position: absolute;
-    bottom: 100px;
-    left: 100px;
-    width: 100px;
+    min-width: 40px;
+    /*height: 80px;*/
     padding: 10px;
     background-color: #fff;
     border:1px solid #ececec;
     border-radius: 4px;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    z-index: 1000;
+    overflow: hidden;
+}
+
+
+.footer {
+    border: 1px solid #f3f3f3;
+    position: absolute;
+    bottom: 0;
+    height: 50px;
+    width: 100%;
+}
+
+#delete-task {
+    line-height: 50px;
+    height: 50px;
 }

@@ -27,6 +27,12 @@
             </li>
         </ul>
     </div>
+    <div id="project-dropdown-menu">
+        <ul>
+            <li onclick="editProjectName();">编辑</li>
+            <li onclick="deleteProject();">删除</li>
+        </ul>
+    </div>
 </div>
 
 <div id="center-view">
@@ -59,14 +65,15 @@
     <div id="task-content" data-taskid="-1">
         这里是任务的具体内容
     </div>
+
+    <div class="footer">
+        <div id="delete-task" data-taskid="-1">
+            <i class="fa fa-trash-o" onclick="clickToDeleteTask(this);"></i>
+        </div>
+    </div>
 </div>
 
-<div id="project-dropdown-menu">
-    <ul>
-        <li>编辑</li>
-        <li>删除</li>
-    </ul>
-</div>
+
 
 <script type="text/javascript" src="js/util.js"></script>
 <script type="text/javascript" src="js/todo.js"></script>
