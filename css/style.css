@@ -140,8 +140,8 @@ header h2 {
 
 }
 
-li.title-list.active {
-    background-color: #f3f3f3;
+#task-list li.title-list.active {
+    background-color: #d5d5d5;
 }
 
 span.task-title {
@@ -174,7 +174,7 @@ span.task-title {
     position: absolute;
     bottom: 0;
     height: 50px;
-    width: 100%;
+    width: calc(100% - 2px);
 }
 
 #delete-task {

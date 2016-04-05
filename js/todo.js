@@ -67,6 +67,10 @@ function addTask(taskObject) {
 document.getElementById("add-task-input").onkeydown = function(event) {
     if (event.keyCode == 13) {
         if (this.value === "") {return;}
+        if (currentProjectId === -1) {
+            alert("请选择一个目录后再操作");
+            return;
+        }
         var title = this.value;
         this.value = "";
 
@@ -97,6 +101,14 @@ function deleteTaskById(id) {
 function clickToDeleteTask(element) {
     var id = element.parentNode.getAttribute("data-taskid");
     deleteTaskById(id);
+}
+
+// 点击了任务列表中的一个任务
+function clickTask(element) {
+    cancelActive(document.getElementById("task-list"));
+    addClass(element, "active");
+
+    showTaskContent(element);
 }
 
 // 切换一个任务完成或未完成的状态
@@ -153,7 +165,7 @@ function createProjectTaskList(projectId) {
         if (tasksArray[i].parent == projectId) {
             liStr = '<li' + ' id="task-' + tasksArray[i].id + '" '
                 + 'class="title-list"'
-                + ' onclick="showTaskContent(this);">'
+                + ' onclick="clickTask(this);">'
                 + '<i class="fa fa-fw fa-square-o" onclick="checkTask(this);"></i>'
                 + '<span class="task-title">'
                 + tasksArray[i].title
@@ -239,8 +251,10 @@ function deleteProject() {
         var newProject = document.getElementById("project-" + currentProjectId);
         console.log(currentProjectId, newProject);
         clickProject(newProject);
-    } else {
+    } else {    // 所有的分类都被删除了，修改任务列表的提示信息
         currentProjectId = -1;
+        document.getElementById("project-name").getElementsByTagName("h3")[0].innerHTML = "请新建一个清单";
+        document.getElementById("add-task-input").setAttribute("placeholder", "请在左侧新建清单后再添加任务");
     }
 
     menuElement.style.display = "none";
