@@ -253,7 +253,7 @@ function showProject() {
     var liStr;
     for (var i = 0; i < projectArray.length; i++) {
         liStr = '<li id="project-'
-            + i + '" onclick="clickProject(this)">'
+            + projectArray[i].id + '" onclick="clickProject(this)">'
             + '<i class="fa fa-bars"></i>'
             + '<span>'
             + projectArray[i].name
