@@ -16,6 +16,10 @@ html,body {
     height:100%;
 }
 
+body {
+    overflow-x: hidden;
+}
+
 ul {
     list-style-type: none;
 }
@@ -63,22 +67,25 @@ header h2 {
 #left-view {
     width: 200px;
     height: calc(100% - 50px);
-    position: absolute;
-    /*overflow: hidden;*/
+    float: left;
     border-right: solid 2px #f3f3f3;
 }
 
+#wrapper {
+    margin-left: 210px;
+    width: calc(100% - 210px);
+    height: calc(100% - 50px);
+}
+
 #center-view {
-    margin: 0 360px 0 210px;
-    overflow: hidden;
+    float: left;
+    width: 60%;
 }
 
 #right-view {
-    width: 350px;
-    height: calc(100% - 50px);
-    position: absolute;
-    right: 0;
-    top: 50px;
+    height: 100%;
+    float: right;
+    width: 38%;
     border-left: solid 2px #f3f3f3;
 }
 
