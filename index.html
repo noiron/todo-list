@@ -12,7 +12,7 @@
     <h2>My Todo List</h2>
 </header>
 
-<div id="left-view" class="on-test">
+<div id="left-view" class="on-test" onblur="blurLeft();" tabindex="0">
     <div id="project-list">
         <ul>
             <li id="project-0" onclick="clickProject(this)">
@@ -38,7 +38,8 @@
 <div id="wrapper">
 <div id="center-view">
     <div id="project-name">
-        <h3>学习前端</h3>
+        <i class="fa fa-bars" id="expand-left" onclick="expandLeft();"></i>
+        <h3 class="inline-block">学习前端</h3>
         <!--<i class="fa fa-ellipsis-h"></i>-->
     </div>
     <div id="add-task">

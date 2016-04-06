@@ -356,3 +356,41 @@ function cancelActive(element) {
         removeClass(lists[i], "active");
     }
 }
+
+// 展开隐藏的左栏
+function expandLeft() {
+    var leftColumn = document.getElementById("left-view");
+    //leftColumn.style.position = "absolute";
+    leftColumn.style.display = "block";
+    leftColumn.focus();
+}
+
+// 点击左栏之外的地方，会收起左栏
+function blurLeft() {
+    if (parseInt(window.innerWidth) > 960) {return;}
+    var leftColumn = document.getElementById("left-view");
+    leftColumn.style.display = "none";
+    console.log("blur");
+}
+
+window.onresize = function() {
+    var leftColumn = document.getElementById("left-view");
+    var wrapperElement = document.getElementById("wrapper");
+    var expandElement = document.getElementById("expand-left");
+
+    if (window.innerWidth > 960) {
+        leftColumn.style.display = "block";
+
+        wrapperElement.style.marginLeft = "210px";
+        wrapperElement.style.width = "calc(100% - 210px)";
+        wrapperElement.style.height = "calc(100% - 50px)";
+
+        expandElement.style.display = "none";
+    } else {
+        leftColumn.style.display = "none";
+        wrapperElement.style.marginLeft = "10px";
+        wrapperElement.style.width = "100%";
+
+        expandElement.style.display = "inline-block";
+    }
+};

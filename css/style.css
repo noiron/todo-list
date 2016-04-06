@@ -17,7 +17,8 @@ html,body {
 }
 
 body {
-    overflow-x: hidden;
+    overflow: hidden;
+    min-width: 300px;
 }
 
 ul {
@@ -64,11 +65,21 @@ header h2 {
     padding: 0 10px;
 }
 
+.inline-block {
+    display: inline-block;
+}
+
+#expand-left {
+    display: none;
+}
+
 #left-view {
     width: 200px;
     height: calc(100% - 50px);
     float: left;
     border-right: solid 2px #f3f3f3;
+    background-color: #f3f3f3;
+    outline: none;
 }
 
 #wrapper {
@@ -80,6 +91,8 @@ header h2 {
 #center-view {
     float: left;
     width: 60%;
+    height: calc(100% - 50px);
+    overflow-y: auto;
 }
 
 #right-view {
@@ -87,6 +100,29 @@ header h2 {
     float: right;
     width: 38%;
     border-left: solid 2px #f3f3f3;
+}
+
+@media screen and (max-width: 960px) {
+    #left-view {
+        display: none;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+    #wrapper {
+        margin-left: 10px;
+        width: 100%;
+    }
+    #expand-left {
+        display: inline-block;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    #center-view {
+        width: 97%;
+    }
+    #right-view {
+        margin-right: -38%;
+    }
 }
 
 #project-list {
