@@ -38,7 +38,7 @@
 <div id="wrapper">
 <div id="center-view">
     <div id="project-name">
-        <i class="fa fa-bars" id="expand-left" onclick="expandLeft();"></i>
+        <i class="fa fa-bars" id="expand-left" onclick="expandLeft();" title="点击展开目录"></i>
         <h3 class="inline-block">学习前端</h3>
         <!--<i class="fa fa-ellipsis-h"></i>-->
     </div>
@@ -69,12 +69,11 @@
     </div>
 
     <div class="footer">
-        <div id="delete-task" data-taskid="-1">
+        <div id="delete-task" data-taskid="-1" title="点击这里删除任务">
             <i class="fa fa-trash-o" onclick="clickToDeleteTask(this);"></i>
         </div>
     </div>
 </div>
-
 </div>
 
 <script type="text/javascript" src="js/util.js"></script>

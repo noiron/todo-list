@@ -169,7 +169,8 @@ function createProjectTaskList(projectId) {
                 + '<i class="fa fa-fw fa-square-o" onclick="checkTask(this);"></i>'
                 + '<span class="task-title">'
                 + tasksArray[i].title
-                + '</span></li>';
+                + '</span>'
+                + '<i class="fa fa-edit" onclick="editTaskTitle(this);"></i></li>';
             listHTML += liStr;
         }
     }
@@ -177,18 +178,23 @@ function createProjectTaskList(projectId) {
     return listHTML;
 }
 
-// 当任务标题被修改时，保存
-function saveTaskChange(element) {
+// 修改任务标题
+function editTaskTitle(element) {
     var parent = element.parentNode;    // 取出parent，类型为li
     var id = parent.id.slice(5);
+    var index = -1;
     var tasksArray = JSON.parse(localStorage.task);
     for (var i = 0; i < tasksArray.length; i++) {
         if (tasksArray[i].id == id) {
-            tasksArray[i].title = element.innerHTML;
+            index = i;
             break;
         }
     }
+    var newTitle = prompt("请输入新的标题：", tasksArray[index].title);
+    if (!newTitle) { return;}
+    tasksArray[index].title = newTitle;
     localStorage.task = JSON.stringify(tasksArray);
+    document.getElementById("task-list").innerHTML = createProjectTaskList(currentProjectId);
 }
 
 // ----------------------------------------------------------------------------
@@ -395,8 +401,8 @@ window.onresize = function() {
     if (window.innerWidth > 960) {
         leftColumn.style.display = "block";
 
-        wrapperElement.style.marginLeft = "210px";
-        wrapperElement.style.width = "calc(100% - 210px)";
+        wrapperElement.style.marginLeft = "260px";
+        wrapperElement.style.width = "calc(100% - 260px)";
         wrapperElement.style.height = "calc(100% - 50px)";
 
         expandElement.style.display = "none";

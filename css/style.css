@@ -73,8 +73,12 @@ header h2 {
     display: none;
 }
 
+/*#main {*/
+    /*height: 100%;*/
+/*}*/
+
 #left-view {
-    width: 200px;
+    width: 250px;
     height: calc(100% - 50px);
     float: left;
     border-right: solid 2px #f3f3f3;
@@ -83,7 +87,7 @@ header h2 {
 }
 
 #wrapper {
-    margin-left: 210px;
+    margin-left: 260px;
     width: calc(100% - 210px);
     height: calc(100% - 50px);
 }
@@ -100,6 +104,7 @@ header h2 {
     float: right;
     width: 38%;
     border-left: solid 2px #f3f3f3;
+    position: relative;
 }
 
 @media screen and (max-width: 960px) {
@@ -168,6 +173,14 @@ header h2 {
     height: 36px;
     line-height: 36px;
     border-bottom: solid 1px #d5d5d5;
+}
+
+#task-list li .fa-edit {
+    float: right;
+    height: 30px;
+    line-height: 30px;
+    opacity: 0.4;
+    padding-right: 15px;
 }
 
 #task-list li:hover {
