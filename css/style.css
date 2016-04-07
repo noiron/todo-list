@@ -42,8 +42,12 @@ h2 {
     font-size: 25px
 }
 
-h3,h4,h5 {
+h3,h4 {
     font-size: 22px
+}
+
+h5 {
+    font-size: 16px
 }
 
 p {
@@ -196,6 +200,16 @@ header h2 {
     border-bottom: solid 1px #d5d5d5;
 }
 
+#task-list h5 {
+    margin-top: 16px;
+    margin-bottom: 5px;
+    padding-left: 10px;
+}
+
+#finished-task {
+    opacity: 0.5;
+}
+
 #task-list li .fa-edit {
     float: right;
     height: 30px;
@@ -229,7 +243,7 @@ span.task-title {
 
 #task-setting {
     margin-top: 10px;
-    border-bottom: 1px solid #c3c3c3;
+    border-bottom: 1px solid #d5d5d5;
     padding: 10px;
     height: 74px;
     box-sizing: border-box;

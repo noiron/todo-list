@@ -44,6 +44,31 @@ function initStorage() {
     }
 }
 
+
+// ----------------------------------------------------------------------------
+// 数据的保存和读取
+// ----------------------------------------------------------------------------
+
+// 取得所有的任务，返回JSON格式
+function getTask() {
+    return JSON.parse(localStorage.task);
+}
+
+// 更新任务数据
+function updateTask(tasks) {
+    localStorage.task = JSON.stringify(tasks);
+}
+
+// 取得所有的目录
+function getProject() {
+    return JSON.parse(localStorage.project);
+}
+
+// 更新任务数据
+function updateProject(projects) {
+    localStorage.project = JSON.stringify(projects);
+}
+
 // ----------------------------------------------------------------------------
 // 任务操作
 // ----------------------------------------------------------------------------
@@ -51,7 +76,7 @@ function initStorage() {
 // 添加一个任务
 function addTask(taskObject) {
     // 取得所有的任务
-    var tasksArray = JSON.parse(localStorage.task);
+    var tasksArray = getTask();
     if (tasksArray.length === 0) {
         taskObject.id = 0;
     } else {
@@ -60,7 +85,7 @@ function addTask(taskObject) {
     tasksArray.push(taskObject);
     updateProjectChild(currentProjectId, taskObject.id);
 
-    localStorage.task = JSON.stringify(tasksArray);
+    updateTask(tasksArray);
 }
 
 // 在输入框上绑定回车事件
@@ -80,13 +105,13 @@ document.getElementById("add-task-input").onkeydown = function(event) {
         taskObject.parent = currentProjectId;
 
         addTask(taskObject);
-        document.getElementById("task-list").innerHTML = createProjectTaskList(currentProjectId);
+        showTaskList();
     }
 };
 
 // 根据任务id删除一个任务
 function deleteTaskById(id) {
-    var tasksArray = JSON.parse(localStorage.task);
+    var tasksArray = getTask();
     for (var i = 0; i < tasksArray.length; i++) {
         if (tasksArray[i].id == id) {
             tasksArray.splice(i, 1);
@@ -94,8 +119,8 @@ function deleteTaskById(id) {
         }
     }
     updateProjectChild(currentProjectId, id, "delete");
-    localStorage.task = JSON.stringify(tasksArray);
-    document.getElementById("task-list").innerHTML = createProjectTaskList(currentProjectId);
+    updateTask(tasksArray);
+    showTaskList();
 }
 
 function clickToDeleteTask(element) {
@@ -124,24 +149,25 @@ function checkTask(element) {
     var taskId = element.parentNode.id.slice(5);
     // 更新任务的完成状态
     updateTaskState(taskId);
+    showTaskList();
 }
 
 // 更新任务的完成状态
 function updateTaskState(taskId) {
-    var taskArray = JSON.parse(localStorage.task);
+    var taskArray = getTask();
     for (var i = 0; i < taskArray.length; i++) {
         if (taskArray[i].id == taskId) {
             taskArray[i].finish = !taskArray[i].finish;
         }
     }
-    localStorage.task = JSON.stringify(taskArray);
+    updateTask(taskArray);
 }
 
 // 在右侧显示一个任务的具体内容
 function showTaskContent(element) {
     var taskId = element.id.slice(5);
     //console.log(taskId);
-    var taskArray = JSON.parse(localStorage.task);
+    var taskArray = getTask();
     var contentElement = document.getElementById("task-content").getElementsByTagName("textarea")[0];
     contentElement.setAttribute("data-taskid", taskId);
 
@@ -161,26 +187,48 @@ function showTaskContent(element) {
     }
 }
 
+function showTaskList() {
+    document.getElementById("task-list").innerHTML = createProjectTaskList(currentProjectId);
+}
+
 // 创建一个目录下的列表用于显示
 function createProjectTaskList(projectId) {
-    var listHTML = "<ul>";
-    var tasksArray = JSON.parse(localStorage.task);
+    var unfinishedListHTML = "<ul>";
+    var finishedListHTML = '<div id="finished-task"><h5>已完成</h5>';
+
+    var tasksArray = getTask();
     var liStr;
     for (var i = 0; i < tasksArray.length; i++) {
         if (tasksArray[i].parent == projectId) {
-            liStr = '<li' + ' id="task-' + tasksArray[i].id + '" '
-                + 'class="title-list"'
-                + ' onclick="clickTask(this);">'
-                + '<i class="fa fa-fw fa-square-o" onclick="checkTask(this);"></i>'
-                + '<span class="task-title">'
-                + tasksArray[i].title
-                + '</span>'
-                + '<i class="fa fa-edit" onclick="editTaskTitle(this);"></i></li>';
-            listHTML += liStr;
+            if (!tasksArray[i].finish) {
+
+                liStr = '<li' + ' id="task-' + tasksArray[i].id + '" '
+                    + 'class="title-list"'
+                    + ' onclick="clickTask(this);">'
+                    + '<i class="fa fa-fw fa-square-o" onclick="checkTask(this);"></i>'
+                    + '<span class="task-title">'
+                    + tasksArray[i].title
+                    + '</span>'
+                    + '<i class="fa fa-edit" onclick="editTaskTitle(this);"></i></li>';
+                unfinishedListHTML += liStr;
+            } else {
+
+                liStr = '<li' + ' id="task-' + tasksArray[i].id + '" '
+                    + 'class="title-list finished"'
+                    + ' onclick="clickTask(this);">'
+                    + '<i class="fa fa-fw fa-check-square-o" onclick="checkTask(this);"></i>'
+                    + '<span class="task-title">'
+                    + tasksArray[i].title
+                    + '</span>'
+                    + '<i class="fa fa-edit" onclick="editTaskTitle(this);"></i></li>';
+                finishedListHTML += liStr;
+            }
         }
     }
-    listHTML += "</ul>";
-    return listHTML;
+    unfinishedListHTML += "</ul>";
+    finishedListHTML += "</ul></div>";
+
+    return unfinishedListHTML + finishedListHTML;
 }
 
 // 修改任务标题
@@ -188,7 +236,7 @@ function editTaskTitle(element) {
     var parent = element.parentNode;    // 取出parent，类型为li
     var id = parent.id.slice(5);
     var index = -1;
-    var tasksArray = JSON.parse(localStorage.task);
+    var tasksArray = getTask();
     for (var i = 0; i < tasksArray.length; i++) {
         if (tasksArray[i].id == id) {
             index = i;
@@ -198,8 +246,8 @@ function editTaskTitle(element) {
     var newTitle = prompt("请输入新的标题：", tasksArray[index].title);
     if (!newTitle) { return;}
     tasksArray[index].title = newTitle;
-    localStorage.task = JSON.stringify(tasksArray);
-    document.getElementById("task-list").innerHTML = createProjectTaskList(currentProjectId);
+    updateTask(tasksArray);
+    showTaskList();
 }
 
 // 编辑任务内容
@@ -209,7 +257,7 @@ function editTaskContent(element) {
     var id = element.getAttribute("data-taskid");
     console.log(id);
     var index = -1;
-    var tasksArray = JSON.parse(localStorage.task);
+    var tasksArray = getTask();
     for (var i = 0; i < tasksArray.length; i++) {
         if (tasksArray[i].id == id) {
             index = i;
@@ -218,7 +266,7 @@ function editTaskContent(element) {
     }
 
     tasksArray[index].content = content;
-    localStorage.task = JSON.stringify(tasksArray);
+    updateTask(tasksArray);
 }
 
 // ----------------------------------------------------------------------------
@@ -230,7 +278,7 @@ function addProject() {
     var name = prompt("请输入名称：");
     if (!name) return;
     var projectObject = {};
-    var projectArray = JSON.parse(localStorage.project);
+    var projectArray = getProject();
     if (projectArray.length == 0) {
         projectObject.id = 0;
     } else {
@@ -240,7 +288,7 @@ function addProject() {
     projectObject.child = [];
     projectArray.push(projectObject);
 
-    localStorage.project = JSON.stringify(projectArray);
+    updateProject(projectArray);
     showProject();
 
     // 将焦点定位至新建目录
@@ -257,7 +305,7 @@ function deleteProject() {
         return;
     }
     var childArray = [];
-    var projectArray = JSON.parse(localStorage.project);
+    var projectArray = getProject();
     for (var i = 0; i < projectArray.length; i++) {
         if (projectArray[i].id == currentProjectId) {
             childArray = projectArray[i].child;
@@ -271,7 +319,7 @@ function deleteProject() {
         deleteTaskById(childArray[i]);
     }
 
-    localStorage.project = JSON.stringify(projectArray);
+    updateProject(projectArray);
     showProject();
 
 
@@ -292,7 +340,7 @@ function deleteProject() {
 
 // 显示所有的目录
 function showProject() {
-    var projectArray = JSON.parse(localStorage.project);
+    var projectArray = getProject();
     var projectHTML = "<ul>";
     var liStr;
     for (var i = 0; i < projectArray.length; i++) {
@@ -312,7 +360,7 @@ function showProject() {
 function editProjectName() {
     var name = prompt("请输入新的名称：");
     if (!name) return;
-    var projectArray = JSON.parse(localStorage.project);
+    var projectArray = getProject();
     for (var i = 0; i < projectArray.length; i++) {
         if (projectArray[i].id == currentProjectId) {
             projectArray[i].name = name;
@@ -321,7 +369,7 @@ function editProjectName() {
         }
     }
 
-    localStorage.project = JSON.stringify(projectArray);
+    updateProject(projectArray);
     showProject();
     // 将焦点定位至改名后的目录
     var newProject = document.getElementById("project-" + currentProjectId);
@@ -331,7 +379,7 @@ function editProjectName() {
 // 添加或删除一个任务时，更新project的child属性
 // option == "delete"时，在child中删除任务
 function updateProjectChild(projectId, taskId, option) {
-    var projectArray = JSON.parse(localStorage.project);
+    var projectArray = getProject();
     for (var i = 0; i < projectArray.length; i++) {
         if (projectArray[i].id == projectId) {
             if (option == "delete") {
@@ -343,7 +391,7 @@ function updateProjectChild(projectId, taskId, option) {
             }
         }
     }
-    localStorage.project = JSON.stringify(projectArray);
+    updateProject(projectArray);
 }
 
 function showDropdownMenu(element) {
@@ -376,7 +424,7 @@ function clickProject(element) {
 
     currentProjectId = element.id.slice(8);
     var projectName = "";
-    var projectArray = JSON.parse(localStorage.project);
+    var projectArray = getProject();
     for (var i = 0; i < projectArray.length; i++) {
         if (projectArray[i].id == currentProjectId) {
             projectName = projectArray[i].name;
@@ -389,7 +437,7 @@ function clickProject(element) {
     document.getElementById("add-task-input").setAttribute("placeholder",
         '添加任务至"' + projectName + '"');
     // 修改显示的任务列表
-    document.getElementById("task-list").innerHTML = createProjectTaskList(currentProjectId);
+    showTaskList();
 }
 
 // ----------------------------------------------------------------------------
