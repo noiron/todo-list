@@ -241,6 +241,14 @@ span.task-title {
     outline: none;
 }
 
+div.not-selected {
+    background-color: #ffffff;
+    position: relative;
+    z-index: 100;
+    width: 100%;
+    height: 100%;
+}
+
 #task-setting {
     margin-top: 10px;
     border-bottom: 1px solid #d5d5d5;

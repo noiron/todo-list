@@ -84,7 +84,6 @@ function addTask(taskObject) {
     }
     tasksArray.push(taskObject);
     updateProjectChild(currentProjectId, taskObject.id);
-
     updateTask(tasksArray);
 }
 
@@ -133,6 +132,8 @@ function clickTask(element) {
     cancelActive(document.getElementById("task-list"));
     addClass(element, "active");
 
+    currentTaskId = element.id.slice(5);
+
     showTaskContent(element);
 
     if (window.innerWidth < 600) {
@@ -165,15 +166,20 @@ function updateTaskState(taskId) {
 
 // 在右侧显示一个任务的具体内容
 function showTaskContent(element) {
+    if (currentTaskId == -1) {
+        addClass(document.getElementById("content-mask"), "not-selected");
+        return;
+    }
+
+    removeClass(document.getElementById("content-mask"), "not-selected");
+
     var taskId = element.id.slice(5);
-    //console.log(taskId);
     var taskArray = getTask();
     var contentElement = document.getElementById("task-content").getElementsByTagName("textarea")[0];
     contentElement.setAttribute("data-taskid", taskId);
 
     var deleteElement = document.getElementById("delete-task");
     deleteElement.setAttribute("data-taskid", taskId);
-
 
     for (var i = 0; i < taskArray.length; i++) {
         if (taskArray[i].id == taskId) {
@@ -422,7 +428,16 @@ function clickProject(element) {
     cancelActive(document.getElementById("project-list"));
     addClass(element, "active");
 
-    currentProjectId = element.id.slice(8);
+    var newProjectId = element.id.slice(8);
+
+    // 如果选中的是不同的目录
+    if (currentProjectId !== newProjectId) {
+        currentTaskId = -1;
+        currentProjectId = newProjectId;
+    }
+
+    addClass(document.getElementById("content-mask"), "not-selected");
+
     var projectName = "";
     var projectArray = getProject();
     for (var i = 0; i < projectArray.length; i++) {
