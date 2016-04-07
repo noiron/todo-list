@@ -73,6 +73,12 @@ header h2 {
     display: none;
 }
 
+#task-setting .fa-angle-left {
+    display: none;
+    height: 50px;
+    line-height: 50px;
+}
+
 /*#main {*/
     /*height: 100%;*/
 /*}*/
@@ -84,6 +90,7 @@ header h2 {
     border-right: solid 2px #f3f3f3;
     background-color: #f3f3f3;
     outline: none;
+    z-index: 10;
 }
 
 #wrapper {
@@ -92,6 +99,7 @@ header h2 {
     height: calc(100% - 50px);
     box-sizing: border-box;
     -moz-box-sizing: border-box;
+    position: relative;
 }
 
 #center-view {
@@ -108,6 +116,8 @@ header h2 {
     width: 38%;
     border-left: solid 2px #f3f3f3;
     position: relative;
+    outline: none;
+    background-color: #ffffff;
 }
 
 @media screen and (max-width: 960px) {
@@ -129,7 +139,15 @@ header h2 {
         width: 97%;
     }
     #right-view {
-        margin-right: -38%;
+        display: none;
+        position: absolute;
+        right: 0;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        width: 300px;
+        z-index: 20;
+    }
+    #task-setting .fa-angle-left {
+        display: inline-block;
     }
 }
 
@@ -209,9 +227,17 @@ span.task-title {
     outline: none;
 }
 
+#task-setting {
+    margin-top: 10px;
+    border-bottom: 1px solid #c3c3c3;
+    padding: 10px;
+    height: 74px;
+    box-sizing: border-box;
+}
+
 #task-content {
     position: relative;
-    height: calc(100% - 50px);
+    height: calc(100% - 140px);
     background-color: #96ffb5;
     box-sizing: border-box;
     -moz-box-sizing: border-box;

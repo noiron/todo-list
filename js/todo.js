@@ -109,6 +109,10 @@ function clickTask(element) {
     addClass(element, "active");
 
     showTaskContent(element);
+
+    if (window.innerWidth < 600) {
+        expandRight();
+    }
 }
 
 // 切换一个任务完成或未完成的状态
@@ -407,16 +411,33 @@ function expandLeft() {
 
 // 点击左栏之外的地方，会收起左栏
 function blurLeft() {
-    if (parseInt(window.innerWidth) > 960) {return;}
+    if (window.innerWidth > 960) {return;}
     var leftColumn = document.getElementById("left-view");
     leftColumn.style.display = "none";
-    console.log("blur");
 }
+
+// 展开隐藏的右栏
+function expandRight() {
+    var rightColumn = document.getElementById("right-view");
+    //rightColumn.style.position = "relative";
+    rightColumn.style.display = "block";
+    //rightColumn.style.marginRight = 0;
+    rightColumn.focus();
+}
+
+// 收起右栏
+function hideRight(event) {
+    if (window.innerWidth > 600) {return;}
+    var rightColumn = document.getElementById("right-view");
+    rightColumn.style.display = "none";
+}
+
 
 window.onresize = function() {
     var leftColumn = document.getElementById("left-view");
     var wrapperElement = document.getElementById("wrapper");
     var expandElement = document.getElementById("expand-left");
+    var rightColumn = document.getElementById("right-view");
 
     if (window.innerWidth > 960) {
         leftColumn.style.display = "block";
@@ -432,5 +453,11 @@ window.onresize = function() {
         wrapperElement.style.width = "100%";
 
         expandElement.style.display = "inline-block";
+    }
+
+    if (window.innerWidth > 600) {
+        rightColumn.style.display = "block";
+    } else {
+        rightColumn.style.display = "none";
     }
 };
