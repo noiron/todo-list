@@ -88,8 +88,10 @@ header h2 {
 
 #wrapper {
     margin-left: 260px;
-    width: calc(100% - 210px);
+    width: calc(100% - 260px);
     height: calc(100% - 50px);
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
 }
 
 #center-view {
@@ -97,11 +99,12 @@ header h2 {
     width: 60%;
     height: calc(100% - 50px);
     overflow-y: auto;
+    margin-right: 10px;
 }
 
 #right-view {
     height: 100%;
-    float: right;
+    float: left;
     width: 38%;
     border-left: solid 2px #f3f3f3;
     position: relative;
@@ -207,7 +210,23 @@ span.task-title {
 }
 
 #task-content {
-    padding: 20px;
+    position: relative;
+    height: calc(100% - 50px);
+    background-color: #96ffb5;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+
+#task-content textarea {
+    border: none;
+    outline: none;
+    font-size: 16px;
+    width: 100%;
+    height: 100%;
+    resize: none;
+    padding: 30px 20px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
 }
 
 #project-dropdown-menu {

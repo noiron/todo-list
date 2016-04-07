@@ -138,18 +138,19 @@ function showTaskContent(element) {
     var taskId = element.id.slice(5);
     //console.log(taskId);
     var taskArray = JSON.parse(localStorage.task);
-    var contentElement = document.getElementById("task-content");
+    var contentElement = document.getElementById("task-content").getElementsByTagName("textarea")[0];
     contentElement.setAttribute("data-taskid", taskId);
 
     var deleteElement = document.getElementById("delete-task");
     deleteElement.setAttribute("data-taskid", taskId);
 
+
     for (var i = 0; i < taskArray.length; i++) {
         if (taskArray[i].id == taskId) {
             if (taskArray[i].content) {
-                contentElement.innerHTML = taskArray[i].content;
+                contentElement.value = taskArray[i].content;
             } else {
-                contentElement.innerHTML = "这里是任务的具体内容";
+                contentElement.value = "";
             }
             return;
         }
@@ -195,6 +196,25 @@ function editTaskTitle(element) {
     tasksArray[index].title = newTitle;
     localStorage.task = JSON.stringify(tasksArray);
     document.getElementById("task-list").innerHTML = createProjectTaskList(currentProjectId);
+}
+
+// 编辑任务内容
+function editTaskContent(element) {
+    var content = element.value;
+
+    var id = element.getAttribute("data-taskid");
+    console.log(id);
+    var index = -1;
+    var tasksArray = JSON.parse(localStorage.task);
+    for (var i = 0; i < tasksArray.length; i++) {
+        if (tasksArray[i].id == id) {
+            index = i;
+            break;
+        }
+    }
+
+    tasksArray[index].content = content;
+    localStorage.task = JSON.stringify(tasksArray);
 }
 
 // ----------------------------------------------------------------------------
@@ -380,7 +400,7 @@ function cancelActive(element) {
 // 展开隐藏的左栏
 function expandLeft() {
     var leftColumn = document.getElementById("left-view");
-    //leftColumn.style.position = "absolute";
+    leftColumn.style.position = "absolute";
     leftColumn.style.display = "block";
     leftColumn.focus();
 }
