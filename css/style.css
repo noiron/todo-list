@@ -81,6 +81,7 @@ header h2 {
     display: none;
     height: 50px;
     line-height: 50px;
+    cursor: pointer;
 }
 
 /*#main {*/
@@ -178,7 +179,7 @@ header h2 {
 }
 
 #project-name {
-    margin-top: 40px;
+    margin:15px 10px;
 }
 
 #add-task {
@@ -252,8 +253,8 @@ div.not-selected {
 #task-setting {
     margin-top: 10px;
     border-bottom: 1px solid #d5d5d5;
-    padding: 10px;
-    height: 74px;
+    padding: 0 10px;
+    height: 54px;
     box-sizing: border-box;
 }
 
