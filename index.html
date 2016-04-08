@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Simple todo list</title>
-    <link href="//netdna.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
+    <!--<link href="//netdna.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">-->
+    <link href="css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -15,11 +16,11 @@
 <div id="left-view" class="on-test" onblur="blurLeft();" tabindex="0">
     <div id="project-list">
         <ul>
-            <li id="project-0" onclick="clickProject(this)">
+            <li id="project-0" data-projectid="0" onclick="clickProject(this)">
                 <i class="fa fa-bars"></i><span>学习前端</span>
                 <i class="fa fa-ellipsis-h" onclick="showDropdownMenu(this);"></i>
             </li>
-            <li id="project-1" onclick="clickProject(this)">
+            <li id="project-1" data-projectid="-1" onclick="clickProject(this)">
                 <i class="fa fa-bars"></i><span>娱乐</span>
             </li>
             <li onclick="addProject()">
@@ -47,15 +48,15 @@
     </div>
     <div id="task-list">
         <ul>
-            <li class="title-list active">
+            <li data-taskid="0" class="title-list active">
                 <i class="fa fa-square-o"></i>
                 <span class="task-title">学习gulp</span>
             </li>
-            <li class="title-list">
+            <li data-taskid="1" class="title-list">
                 <i class="fa fa-square-o"></i>
                 <span class="task-title">完成todolist</span>
             </li>
-            <li class="title-list">
+            <li data-taskid="2" class="title-list">
                 <i class="fa fa-square-o"></i>
                 <span class="task-title">学习less</span>
             </li>

@@ -129,10 +129,11 @@ function clickToDeleteTask(element) {
 
 // 点击了任务列表中的一个任务
 function clickTask(element) {
-    cancelActive(document.getElementById("task-list"));
-    addClass(element, "active");
-
-    currentTaskId = element.id.slice(5);
+    currentTaskId = element.getAttribute("data-taskid");
+    var taskList = document.getElementById("task-list");
+    cancelActive(taskList);
+    var cssSelector = 'li[data-taskid="' + currentTaskId + '"]';
+    addClass(taskList.querySelector(cssSelector), "active");
 
     showTaskContent(element);
 
@@ -146,8 +147,8 @@ function checkTask(element) {
     toggleClass(element, "fa-check-square-o");
     toggleClass(element, "fa-square-o");
 
-    // 获得这个任务的Id值，eg: "id=task-2"
-    var taskId = element.parentNode.id.slice(5);
+    // 获得这个任务的Id值
+    var taskId = element.parentNode.getAttribute("data-taskid");
     // 更新任务的完成状态
     updateTaskState(taskId);
     showTaskList();
@@ -173,7 +174,7 @@ function showTaskContent(element) {
 
     removeClass(document.getElementById("content-mask"), "not-selected");
 
-    var taskId = element.id.slice(5);
+    var taskId = element.getAttribute("data-taskid");
     var taskArray = getTask();
     var contentElement = document.getElementById("task-content").getElementsByTagName("textarea")[0];
     contentElement.setAttribute("data-taskid", taskId);
@@ -208,7 +209,7 @@ function createProjectTaskList(projectId) {
         if (tasksArray[i].parent == projectId) {
             if (!tasksArray[i].finish) {
 
-                liStr = '<li' + ' id="task-' + tasksArray[i].id + '" '
+                liStr = '<li' + ' data-taskid="' + tasksArray[i].id + '" '
                     + 'class="title-list"'
                     + ' onclick="clickTask(this);">'
                     + '<i class="fa fa-fw fa-square-o" onclick="checkTask(this);"></i>'
@@ -219,7 +220,7 @@ function createProjectTaskList(projectId) {
                 unfinishedListHTML += liStr;
             } else {
 
-                liStr = '<li' + ' id="task-' + tasksArray[i].id + '" '
+                liStr = '<li' + ' data-taskid="' + tasksArray[i].id + '" '
                     + 'class="title-list finished"'
                     + ' onclick="clickTask(this);">'
                     + '<i class="fa fa-fw fa-check-square-o" onclick="checkTask(this);"></i>'
@@ -240,7 +241,7 @@ function createProjectTaskList(projectId) {
 // 修改任务标题
 function editTaskTitle(element) {
     var parent = element.parentNode;    // 取出parent，类型为li
-    var id = parent.id.slice(5);
+    var id = parent.getAttribute("data-taskid");
     var index = -1;
     var tasksArray = getTask();
     for (var i = 0; i < tasksArray.length; i++) {
@@ -350,8 +351,9 @@ function showProject() {
     var projectHTML = "<ul>";
     var liStr;
     for (var i = 0; i < projectArray.length; i++) {
+        var id = projectArray[i].id;
         liStr = '<li id="project-'
-            + projectArray[i].id + '" onclick="clickProject(this)">'
+            + id + '" data-projectid=' + id + ' onclick="clickProject(this)">'
             + '<i class="fa fa-bars"></i>'
             + '<span>'
             + projectArray[i].name
@@ -428,7 +430,7 @@ function clickProject(element) {
     cancelActive(document.getElementById("project-list"));
     addClass(element, "active");
 
-    var newProjectId = element.id.slice(8);
+    var newProjectId = element.getAttribute("data-projectid");
 
     // 如果选中的是不同的目录
     if (currentProjectId !== newProjectId) {
