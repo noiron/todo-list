@@ -221,6 +221,8 @@ function createProjectTaskList(projectId) {
     var finishedListHTML = '<div id="finished-task"><h5>已完成</h5>';
 
     var tasksArray = getTask();
+    tasksArray = tasksArray.reverse();
+
     var liStr;
     for (var i = 0; i < tasksArray.length; i++) {
         if (tasksArray[i].parent == projectId) {
@@ -445,16 +447,21 @@ function showProject() {
 
 // 编辑目录的名称
 function editProjectName() {
-    var name = prompt("请输入新的名称：");
-    if (!name) return;
+    hideDropdownMenu();
+    var index = -1;
+
     var projectArray = getProject();
     for (var i = 0; i < projectArray.length; i++) {
         if (projectArray[i].id == currentProjectId) {
-            projectArray[i].name = name;
-            console.log(name);
+            index = i;
             break;
         }
     }
+
+    var name = prompt("请输入新的名称：", projectArray[index].name);
+    if (!name) return;
+
+    projectArray[index].name = name;
 
     updateProject(projectArray);
     showProject();
@@ -501,6 +508,12 @@ function showDropdownMenu(element) {
     menuStyle.display = "block";
     menuStyle.top = top + 30 + "px";
     menuStyle.left = left - 30 + "px";
+}
+
+function hideDropdownMenu() {
+    var menuElement = document.getElementById("project-dropdown-menu");
+    var menuStyle = menuElement.style;
+    menuStyle.display = "none";
 }
 
 // 点击一个任务目录

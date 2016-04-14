@@ -166,7 +166,7 @@ header h2 {
 
 #project-list li.active {
     color: #fff;
-    background-color: #516bc1;
+    background-color: #1B9AF7;
 }
 
 #project-list .fa-ellipsis-h {
@@ -180,6 +180,10 @@ header h2 {
 
 #project-name {
     margin:15px 10px;
+}
+
+#project-name .fa-bars {
+    cursor: pointer;
 }
 
 #add-task {
@@ -289,7 +293,7 @@ div.not-selected {
 }
 
 #task-setting input {
-    width: 260px;
+    width: 200px;
     padding: 0 5px;
 }
 
