@@ -322,15 +322,20 @@ function setDate(event, element) {
         showDate();
     }
 
+    hideDatePicker();
+    event.stopPropagation();
+}
+
+// 清除任务的日期
+function clearDate(event, element) {
+    var allTasks = getTask();
+    var index = getTaskIndexById(currentTaskId);
+    allTasks[index]["due-date"] = null;
+    updateTask(allTasks);
+    showDate();
 
     hideDatePicker();
     event.stopPropagation();
-
-
-}
-
-function clearDate(event, element) {
-
 }
 
 function hideDatePicker() {
