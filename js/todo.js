@@ -23,19 +23,22 @@ function initStorage() {
             "parent": 0,
             "finish": false,
             "title": "学习Bootstrap",
-            "content": "学习Bootstrap官网教程\n写Bootstrap demo"
+            "content": "学习Bootstrap官网教程\n写Bootstrap demo",
+            "due-date": null
         }, {
             "id": 1,
             "parent": 0,
             "finish": false,
             "title": "完成Todolist",
-            "content": "这里还是什么内容也没有"
+            "content": "这里还是什么内容也没有",
+            "due-date": null
         }, {
             "id": 2,
             "parent": 1,
             "finish": false,
             "title": "看电影",
-            "content": "这里也是什么内容也没有"
+            "content": "这里也是什么内容也没有",
+            "due-date": null
         }
         ];
 
@@ -52,6 +55,17 @@ function initStorage() {
 // 取得所有的任务，返回JSON格式
 function getTask() {
     return JSON.parse(localStorage.task);
+}
+
+// 根据任务id取得任务的index
+function getTaskIndexById(id) {
+    var allTasks = getTask();
+    for (var i = 0; i < allTasks.length; i++) {
+        if (allTasks[i].id == id) {
+            return i;
+        }
+    }
+    return -1;
 }
 
 // 更新任务数据
@@ -120,6 +134,8 @@ function deleteTaskById(id) {
     updateProjectChild(currentProjectId, id, "delete");
     updateTask(tasksArray);
     showTaskList();
+    currentTaskId = -1;
+    showTaskContent();  // 删除一个任务后，右栏默认为空白
 }
 
 function clickToDeleteTask(element) {
@@ -136,6 +152,7 @@ function clickTask(element) {
     addClass(taskList.querySelector(cssSelector), "active");
 
     showTaskContent(element);
+    showDate();
 
     if (window.innerWidth < 600) {
         expandRight();
@@ -274,6 +291,63 @@ function editTaskContent(element) {
 
     tasksArray[index].content = content;
     updateTask(tasksArray);
+}
+
+// 将提示信息改为设定日期
+function showDate() {
+    var date;
+    var allTasks = getTask();
+    var index = getTaskIndexById(currentTaskId);
+    if (index >= 0) {
+        date = allTasks[index]["due-date"];
+        if (date) {
+            document.getElementById("date-setting-span").innerHTML=date.slice(0,10);
+        } else {
+            document.getElementById("date-setting-span").innerHTML= "";
+        }
+    }
+}
+
+// 设定任务的到期日期
+function setDate(event, element) {
+    var dateValue = element.parentNode.querySelector("input[type=text]").value;
+    if (Date.parse(dateValue)) {
+        var newDate = new Date(dateValue);
+        console.log(newDate.toISOString());
+
+        var allTasks = getTask();
+        var index = getTaskIndexById(currentTaskId);
+        allTasks[index]["due-date"] = newDate.toISOString();
+        updateTask(allTasks);
+        showDate();
+    }
+
+
+    hideDatePicker();
+    event.stopPropagation();
+
+
+}
+
+function clearDate(event, element) {
+
+}
+
+function hideDatePicker() {
+    document.getElementById("date-picker").style.display = "none";
+}
+
+function showDatePicker(event) {
+    console.log(event.target);
+    var dateStyle = document.getElementById("date-picker").style;
+
+    if (event.target == document.getElementsByClassName("fa-calendar")[0]) {
+        if (dateStyle.display == "block") {
+            dateStyle.display = "none";
+        } else {
+            dateStyle.display = "block";
+        }
+    }
 }
 
 // ----------------------------------------------------------------------------

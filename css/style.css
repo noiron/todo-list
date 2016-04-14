@@ -258,6 +258,47 @@ div.not-selected {
     box-sizing: border-box;
 }
 
+#date-setting {
+    display: inline-block;
+    font-size: 0;
+    position: relative;
+}
+
+#date-picker {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    top: 30px;
+    left: -10px;
+    width: auto;
+    height: auto;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 200;
+    outline: none;
+    margin: 0 10px;
+    padding: 10px;
+}
+
+#date-picker button {
+    margin: 10px;
+}
+
+#task-setting span, #task-setting input {
+    font-size: 16px;
+    opacity: 0.5;
+}
+
+#task-setting input {
+    width: 260px;
+    padding: 0 5px;
+}
+
+#task-setting .fa-calendar {
+    opacity: 0.5;
+    font-size: 16px;
+    cursor: pointer;
+}
+
 #task-content {
     position: relative;
     height: calc(100% - 140px);

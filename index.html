@@ -79,6 +79,18 @@
     <div id="content-mask" class="not-selected"></div>
     <div id="task-setting">
         <i class="fa fa-angle-left fa-2x" title="收起" onclick="hideRight();"></i>
+        <div id="date-setting" onclick="showDatePicker(event)">
+            <i class="fa fa-calendar"></i>
+            <!--<input id="date-setting-input" placeholder="请输入日期" oninput="setDate(this)"/>-->
+
+            <span id="date-setting-span"></span>
+            <div id="date-picker">
+                <input type="text">
+                <span id="date-info">请按以下格式输入日期：2016-04-14</span>
+                <button id="clear-date" onclick="clearDate(event, this)">清除日期</button>
+                <button id="select-date" onclick="setDate(event, this)">设定日期</button>
+            </div>
+        </div>
     </div>
     <div id="task-content">
         <textarea placeholder="请在这里输入任务的具体内容" data-taskid="-1" oninput="editTaskContent(this)" spellcheck="false"></textarea>
